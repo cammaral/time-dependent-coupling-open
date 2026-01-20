@@ -1,0 +1,10 @@
+{
+  "g0": 1,
+  "eta": 1,
+  "w": 0,
+  "kappa": 0.1,
+  "gamma": 0,
+  "gamma_phi": 0.01,
+  "coupling": "linear",
+  "phi": 0.5
+}

@@ -1,0 +1,11 @@
+{
+  "g0": 1,
+  "eta": 1,
+  "sigma": -1,
+  "kappa": 0.1,
+  "gamma": 0,
+  "gamma_phi": 0.01,
+  "coupling": "gauss",
+  "epsilon": 8,
+  "T": null
+}
