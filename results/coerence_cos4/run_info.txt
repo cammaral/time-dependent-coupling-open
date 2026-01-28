@@ -1,5 +1,5 @@
 === COERENCE RUN INFO ===
-created_at: 2026-01-28T10:18:38.954249
+created_at: 2026-01-28T10:34:21.223502
 
 eps: 1e-10
 limite: 0.1
@@ -15,7 +15,7 @@ args (initial):
 {
   "g0": 1,
   "eta": 1,
-  "w": 6.283185307179586,
+  "w": 0.12566370614359174,
   "kappa": 0.1,
   "gamma": 0,
   "gamma_phi": 0.01,
