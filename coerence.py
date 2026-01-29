@@ -42,7 +42,7 @@ Nb = 45   # Field Base Size
 args = {
     'g0': 1,
     'eta': 1,
-    'w': 2*np.pi,
+    'w': 2*np.pi/50,
     'kappa': 1e-1,
     'gamma': 0,
     'gamma_phi': 1e-2,
