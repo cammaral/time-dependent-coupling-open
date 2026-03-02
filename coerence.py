@@ -47,7 +47,7 @@ args = {
     'gamma': 0,
     'gamma_phi': 1e-2,
     'coupling': 'cos',
-    'phi': None#np.log(1e-3)
+    'phi': 0#np.log(1e-3)
 }
 
 '''
@@ -65,13 +65,13 @@ args = {
 }
 '''
 
-extra = 'cos4'
+extra = 'cos5'
 
 #======= LINEAR/ EXP / TRIG =======
-#wmax = 2*np.pi/50
-#w_list = np.linspace(0, wmax, 100)
-phi_max = np.pi/2
-phi_list = np.linspace(0, phi_max, 100)
+wmax = 10*np.pi/50
+w_list = np.linspace(0, wmax, 200)
+#phi_max = np.pi/2
+#phi_list = np.linspace(0, phi_max, 100)
 
 #======= GAUSS ========
 #epmax = 1
@@ -105,10 +105,10 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
     f.write(f"alpha: {float(alpha)}\n")
     f.write(f"extra: {extra}\n")
 
-    #f.write(f"wmax: {float(wmax)}\n") # lin/exp
-    #f.write(f"len(w_list): {len(w_list)}\n\n")# lin/exp
-    f.write(f"phi_max: {float(phi_max)}\n") # lin/exp
-    f.write(f"len(phi_list): {len(phi_list)}\n\n")# lin/exp
+    f.write(f"wmax: {float(wmax)}\n") # lin/exp
+    f.write(f"len(w_list): {len(w_list)}\n\n")# lin/exp
+    #f.write(f"phi_max: {float(phi_max)}\n") # lin/exp
+    #f.write(f"len(phi_list): {len(phi_list)}\n\n")# lin/exp
     f.write(f"len(t): {len(t)}\n")
 
     #f.write(f'epmax: {float(epmax)}\n') #gauss
@@ -132,17 +132,17 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
     #f.write(f"  T_max: {float(np.max(T_list))}\n") #gauss
     #f.write(f"  first_5: {T_list[:5].tolist()}\n") #gauss
     #f.write(f"  last_5: {T_list[-5:].tolist()}\n") #gauss
-    #f.write(f"  w_min: {float(np.min(w_list))}\n") # lin/exp
-    #f.write(f"  w_max: {float(np.max(w_list))}\n") # lin/exp
-    #f.write(f"  first_5: {w_list[:5].tolist()}\n") # lin/exp
-    #f.write(f"  last_5: {w_list[-5:].tolist()}\n") # lin/exp
-    f.write(f"  phi_min: {float(np.min(phi_list))}\n") # lin/exp
-    f.write(f"  phi_max: {float(np.max(phi_list))}\n") # lin/exp
-    f.write(f"  first_5: {phi_list[:5].tolist()}\n") # lin/exp
-    f.write(f"  last_5: {phi_list[-5:].tolist()}\n") # lin/exp
+    f.write(f"  w_min: {float(np.min(w_list))}\n") # lin/exp
+    f.write(f"  w_max: {float(np.max(w_list))}\n") # lin/exp
+    f.write(f"  first_5: {w_list[:5].tolist()}\n") # lin/exp
+    f.write(f"  last_5: {w_list[-5:].tolist()}\n") # lin/exp
+    #f.write(f"  phi_min: {float(np.min(phi_list))}\n") # lin/exp
+    #f.write(f"  phi_max: {float(np.max(phi_list))}\n") # lin/exp
+    #f.write(f"  first_5: {phi_list[:5].tolist()}\n") # lin/exp
+    #f.write(f"  last_5: {phi_list[-5:].tolist()}\n") # lin/exp
 # salvar arrays completos e args em formato carregável
 np.save(os.path.join(save_dir, "t.npy"), t)
-np.save(os.path.join(save_dir, "phi_list.npy"), phi_list) # lin/exp
+np.save(os.path.join(save_dir, "w_list.npy"), w_list) # lin/exp
 #np.save(os.path.join(save_dir, "T_list.npy"), T_list) #gauss
 
 with open(os.path.join(save_dir, "args.json"), "w", encoding="utf-8") as f:
@@ -182,10 +182,10 @@ c_list_aberto = []
 c_list = []
 args_per_w = []
 
-for phi in tqdm(phi_list):
-    args['phi'] = float(phi)
-#for w in tqdm(w_list): # lin/exp
-#    args['w'] = float(w) # lin/exp
+#for phi in tqdm(phi_list):
+#    args['phi'] = float(phi)
+for w in tqdm(w_list): # lin/exp
+    args['w'] = float(w) # lin/exp
 #for ep in tqdm(T_list): #gauss
 #    args["T"] = float(ep) #gauss
     H = h_open(b, sp, sm)
@@ -207,7 +207,7 @@ np.save(os.path.join(save_dir, "var_aberto.npy"), np.array(c_list_aberto, dtype=
 np.save(os.path.join(save_dir, "var.npy"), np.array(c_list, dtype=object))
 
 # salvar histórico de args (inclui w em cada passo)
-#pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_w.csv"), index=False)
-pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_phi.csv"), index=False)
+pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_w.csv"), index=False)
+#pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_phi.csv"), index=False)
 
 print(f"✅ Tudo salvo em: {save_dir}")
