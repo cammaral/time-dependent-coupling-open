@@ -69,7 +69,7 @@ extra = 'cos5'
 
 #======= LINEAR/ EXP / TRIG =======
 wmax = 10*np.pi/50
-w_list = np.linspace(0, wmax, 100, endpoint=True)
+w_list = np.linspace(0, wmax, 200, endpoint=True)
 #phi_max = np.pi/2
 #phi_list = np.linspace(0, phi_max, 100)
 
