@@ -1,0 +1,33 @@
+=== COERENCE RUN INFO ===
+created_at: 2026-03-27T15:34:57.479488
+
+eps: 1e-10
+limite: 0.1
+N: 2
+Nb: 45
+alpha: 2.23606797749979
+extra: gauss2
+len(t): 200
+epmax: 10.0
+len(eplist): 100
+
+args (initial):
+{
+  "g0": 1,
+  "eta": 1,
+  "sigma": -1,
+  "kappa": 0.1,
+  "gamma": 0,
+  "gamma_phi": 0.01,
+  "coupling": "gauss",
+  "epsilon": null,
+  "T": 7.5
+}
+
+t summary:
+  t_min: 0.0
+  t_max: 20.0
+  first_5: [0.0, 0.01, 0.02, 0.03, 0.04]
+  last_5: [19.232323232323232, 19.424242424242422, 19.616161616161616, 19.808080808080806, 20.0]
+
+w_list summary:
