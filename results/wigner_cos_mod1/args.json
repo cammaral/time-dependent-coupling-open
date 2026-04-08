@@ -5,6 +5,7 @@
   "kappa": 0.1,
   "gamma": 0,
   "gamma_phi": 0.01,
-  "coupling": "exp",
-  "phi": -6.907755278982137
+  "coupling": "cos_mod",
+  "phi": 4.71238898038469,
+  "lambda": 0.1
 }

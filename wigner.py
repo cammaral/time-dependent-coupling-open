@@ -46,8 +46,9 @@ args = {
     'kappa': 1e-1,
     'gamma': 0,
     'gamma_phi': 1e-2,
-    'coupling': 'cos',
-    'phi': 0#np.log(1e-3)
+    'coupling': 'cos_mod',
+    'phi': 1.5*np.pi,
+    'lambda': 0.1
 }
 
 '''
@@ -65,16 +66,16 @@ args = {
 }
 
 '''
-extra = 'cos1'
+extra = 'cos5'
 
 #======= LINEAR/ EXP / TRIG =======
-wmax = 10*np.pi/50
-w_list = np.linspace(0, wmax, 100, endpoint=True)
+wmax = np.pi
+w_list = np.linspace(wmax/10, wmax, 100, endpoint=True)
 #phi_max = np.pi/2
 #phi_list = np.linspace(0, phi_max, 100)
 
 xvec = np.linspace(-10, 10, 250)
-pvec = xvec.copy()
+pvec = np.linspace(-10, 10, 250)
 
 
 #======= GAUSS ========

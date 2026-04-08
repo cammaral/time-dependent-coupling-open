@@ -3,6 +3,8 @@ import numpy as np
 def g_t(t, args):
     if args['coupling'] == 'cos':
         coupling = args['g0'] * np.cos(args['w'] * t + args['phi'])
+    elif args['coupling'] == 'cos_mod':
+        coupling = args["g0"] + args['lambda'] * np.cos(args['w'] * t + args['phi'])
     elif args['coupling'] == 'sin':
         coupling =  args['g0'] * np.sin(args['w'] * t)
     elif args['coupling'] == 'linear':
