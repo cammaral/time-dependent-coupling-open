@@ -11,6 +11,8 @@ def g_t(t, args):
         coupling = args['g0'] *( args['w'] * t + args['phi'])
     elif args['coupling'] == 'exp':
         coupling = args['g0']* np.exp(args['w'] * t + args['phi'])
+    elif args['coupling'] == 'exp_mod':
+            coupling = args['g0']* np.exp(args["zeta"]*args['w'] * t + args['phi'])
     elif args['coupling'] == 'gauss' and 'sigma' in args:
         coupling = args['g0'] * np.exp(args['sigma']*((t - args['T'])/args['epsilon'])**2)
     return coupling

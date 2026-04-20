@@ -23,6 +23,61 @@ def make_exp_folder(base_name="wigner_exp", root="results"):
             return folder
         k += 1
 
+def get_snapshot_indices(t, t_min=0.0, t_max=10.0, n_snapshots=10):
+    target_times = np.linspace(t_min, t_max, n_snapshots)
+    indices = [int(np.argmin(np.abs(t - tt))) for tt in target_times]
+    actual_times = [float(t[i]) for i in indices]
+    return target_times, indices, actual_times
+
+
+def save_states_and_wigner_snapshots(sol, t, xvec, pvec, save_root, label):
+    os.makedirs(save_root, exist_ok=True)
+
+    target_times, indices, actual_times = get_snapshot_indices(
+        t, t_min=0.0, t_max=10.0, n_snapshots=10
+    )
+
+    meta_rows = []
+
+    for k, (ttarget, idx, tactual) in enumerate(zip(target_times, indices, actual_times)):
+        state = sol.states[idx]
+
+        # salva o estado completo
+        qt.qsave(state, os.path.join(save_root, f"{label}_state_{k:02d}"))
+
+        # pega só o modo bosônico para calcular a Wigner
+        rho_field = qt.ptrace(state, 1)
+
+        # calcula e salva a Wigner
+        W = qt.wigner(rho_field, xvec, pvec)
+        np.save(os.path.join(save_root, f"{label}_wigner_{k:02d}.npy"), W)
+
+        # salva também uma figura para inspeção
+        plt.figure(figsize=(6, 5))
+        plt.contourf(xvec, pvec, W, 100, cmap="RdBu_r")
+        plt.colorbar(label="W")
+        plt.xlabel("x")
+        plt.ylabel("p")
+        plt.title(f"{label} | target={ttarget:.3f} | actual={tactual:.3f}")
+        plt.tight_layout()
+        plt.savefig(os.path.join(save_root, f"{label}_wigner_{k:02d}.png"), dpi=200)
+        plt.close()
+
+        meta_rows.append({
+            "snapshot_id": k,
+            "target_time": float(ttarget),
+            "actual_time": float(tactual),
+            "time_index": int(idx),
+            "state_file": f"{label}_state_{k:02d}.qu",
+            "wigner_file_npy": f"{label}_wigner_{k:02d}.npy",
+            "wigner_file_png": f"{label}_wigner_{k:02d}.png",
+        })
+
+    pd.DataFrame(meta_rows).to_csv(
+        os.path.join(save_root, f"{label}_snapshots.csv"),
+        index=False
+    )
+
 # ==========================
 # PARAMETERS
 # ==========================
@@ -30,7 +85,7 @@ eps = 1e-10
 limite = 1e-1
 t = np.concatenate([
     np.linspace(0, 1, 100, endpoint=False),
-    np.linspace(1, 20, 100, endpoint=True)
+    np.linspace(1, 10, 100, endpoint=True)
 ])
 
 N = 2     # Qubit Base Size
@@ -39,6 +94,7 @@ Nb = 45   # Field Base Size
 
 
 #Linear e exp
+"""
 args = {
     'g0': 1,
     'eta': 1,
@@ -46,12 +102,13 @@ args = {
     'kappa': 1e-1,
     'gamma': 0,
     'gamma_phi': 1e-2,
-    'coupling': 'cos_mod',
-    'phi': 1.5*np.pi,
-    'lambda': 0.1
+    'coupling': 'exp_mod',
+    'phi': 0,
+    'zeta': 0.7,
+    #'lambda': 0.1
 }
+"""
 
-'''
 
 args = {
     'g0': 1,
@@ -62,27 +119,27 @@ args = {
     'gamma_phi': 1e-2,
     'coupling': 'gauss',
     'epsilon': None,
-    'T': 7.5
+    'T': 5.0
 }
 
-'''
-extra = 'cos5'
+
+extra = 'gauss2'
 
 #======= LINEAR/ EXP / TRIG =======
-wmax = np.pi
-w_list = np.linspace(wmax/10, wmax, 100, endpoint=True)
+#wmax = 0.05
+#w_list = np.linspace(wmax/5, wmax, 100, endpoint=True)
 #phi_max = np.pi/2
 #phi_list = np.linspace(0, phi_max, 100)
 
-xvec = np.linspace(-10, 10, 250)
-pvec = np.linspace(-10, 10, 250)
+xvec = np.linspace(-7.5, 7.5, 250)
+pvec = np.linspace(-7.5, 7.5, 250)
 
 
 #======= GAUSS ========
-#epmax = 10
-#Tmax = 15
-#T_list = np.linspace(5, Tmax, 100, endpoint=True)
-#ep_list = np.linspace(1e-3, epmax, 100, endpoint=True)
+epmax = 2
+#Tmax = 7.5
+#T_list = np.linspace(2.5, Tmax, 100, endpoint=True)
+ep_list = np.linspace(0.25, epmax, 100, endpoint=True)
 # ==========================
 # INITIAL STATE
 # ==========================
@@ -110,8 +167,8 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
     f.write(f"alpha: {float(alpha)}\n")
     f.write(f"extra: {extra}\n")
     
-    f.write(f"wmax: {float(wmax)}\n") # lin/exp
-    f.write(f"len(w_list): {len(w_list)}\n\n")# lin/exp
+    #f.write(f"wmax: {float(wmax)}\n") # lin/exp
+    #f.write(f"len(w_list): {len(w_list)}\n\n")# lin/exp
     
     # Variacao de phi
     #f.write(f"phi_max: {float(phi_max)}\n") # lin/exp
@@ -146,8 +203,8 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
     #f.write(f"  last_5: {T_list[-5:].tolist()}\n") #gauss
 
 
-    f.write(f"  w_min: {float(np.min(w_list))}\n") # lin/exp
-    f.write(f"  w_max: {float(np.max(w_list))}\n") # lin/exp
+    #f.write(f"  w_min: {float(np.min(w_list))}\n") # lin/exp
+    #f.write(f"  w_max: {float(np.max(w_list))}\n") # lin/exp
     #f.write(f"  first_5: {w_list[:5].tolist()}\n") # lin/exp
     #f.write(f"  last_5: {w_list[-5:].tolist()}\n") # lin/exp
     #f.write(f"  phi_min: {float(np.min(phi_list))}\n") # lin/exp
@@ -156,9 +213,9 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
     #f.write(f"  last_5: {phi_list[-5:].tolist()}\n") # lin/exp
 # salvar arrays completos e args em formato carregável
 np.save(os.path.join(save_dir, "t.npy"), t)
-np.save(os.path.join(save_dir, "w_list.npy"), w_list) # lin/exp
+#np.save(os.path.join(save_dir, "w_list.npy"), w_list) # lin/exp
 #np.save(os.path.join(save_dir, "phi_list.npy"), phi_list) # lin/exp
-#np.save(os.path.join(save_dir, "ep_list.npy"), ep_list) #gauss
+np.save(os.path.join(save_dir, "ep_list.npy"), ep_list) #gauss
 
 with open(os.path.join(save_dir, "args.json"), "w", encoding="utf-8") as f:
     json.dump(args_init, f, indent=2, ensure_ascii=False)
@@ -185,11 +242,26 @@ sol_const = solve(H1, state0, t, None, obs_list, args, open=False)
 
 C_const_aberto = wigner_negativity(sol_const_aberto.states, xvec, pvec, one_mode=False)
 C_const = wigner_negativity(sol_const.states, xvec, pvec, one_mode=False)
-
 # salvar const / const_aberto
 np.save(os.path.join(save_dir, "const_aberto.npy"), np.array(C_const_aberto))
 np.save(os.path.join(save_dir, "const.npy"), np.array(C_const))
+save_states_and_wigner_snapshots(
+    sol_const_aberto,
+    t,
+    xvec,
+    pvec,
+    save_root=os.path.join(save_dir, "snapshots_const_aberto"),
+    label="const_aberto"
+)
 
+save_states_and_wigner_snapshots(
+    sol_const,
+    t,
+    xvec,
+    pvec,
+    save_root=os.path.join(save_dir, "snapshots_const"),
+    label="const"
+)
 # ==========================
 # OPEN HAMILTONIAN (VAR over w)
 # ==========================
@@ -199,10 +271,10 @@ args_per_w = []
 
 #for phi in tqdm(phi_list):
 #    args['phi'] = float(phi)
-for w in tqdm(w_list): # lin/exp
-    args['w'] = float(w) # lin/exp
-#for ep in tqdm(ep_list): #gauss
-#    args["epsilon"] = float(ep) #gauss
+#for w in tqdm(w_list): # lin/exp
+#    args['w'] = float(w) # lin/exp
+for ep in tqdm(ep_list): #gauss
+    args["epsilon"] = float(ep) #gauss
     #print("Passei", w)
     H = h_open(b, sp, sm)
 
@@ -214,7 +286,26 @@ for w in tqdm(w_list): # lin/exp
 
     c_list.append(C_var)
     c_list_aberto.append(C_var_aberto)
+    snap_dir_var_aberto = os.path.join(save_dir, f"snapshots_var_aberto_ep_{ep:.4f}")
+    snap_dir_var = os.path.join(save_dir, f"snapshots_var_ep_{ep:.4f}")
 
+    save_states_and_wigner_snapshots(
+        sol_var_aberto,
+        t,
+        xvec,
+        pvec,
+        save_root=snap_dir_var_aberto,
+        label=f"var_aberto_ep_{ep:.4f}"
+    )
+
+    save_states_and_wigner_snapshots(
+        sol_var,
+        t,
+        xvec,
+        pvec,
+        save_root=snap_dir_var,
+        label=f"var_ep_{ep:.4f}"
+    )
     # guarda o args real usado em cada w
     args_per_w.append({**args})
 
@@ -223,8 +314,8 @@ np.save(os.path.join(save_dir, "var_aberto.npy"), np.array(c_list_aberto, dtype=
 np.save(os.path.join(save_dir, "var.npy"), np.array(c_list, dtype=object))
 
 # salvar histórico de args (inclui w em cada passo)
-#pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_T.csv"), index=False)
-pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_w.csv"), index=False)
+pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_ep.csv"), index=False)
+#pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_w.csv"), index=False)
 #pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_phi.csv"), index=False)
 
 print(f"✅ Tudo salvo em: {save_dir}")
