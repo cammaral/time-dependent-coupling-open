@@ -117,13 +117,14 @@ args = {
     'kappa': 1e-1,
     'gamma': 0,
     'gamma_phi': 1e-2,
-    'coupling': 'gauss',
+    'coupling': 'gauss_mod',
     'epsilon': None,
-    'T': 7.5
+    'T1': 2.5,
+    "T2": 7.5
 }
 
 
-extra = 'gauss2'
+extra = 'gauss3'
 
 #======= LINEAR/ EXP / TRIG =======
 #wmax = 0.05
@@ -136,9 +137,9 @@ pvec = np.linspace(-7.5, 7.5, 250)
 
 
 #======= GAUSS ========
-epmax = 10
-#Tmax = 7.5
-#T_list = np.linspace(2.5, Tmax, 100, endpoint=True)
+epmax = 3
+#Tmax = 12.0
+#T_list = np.linspace(0, Tmax, 200, endpoint=True)
 ep_list = np.linspace(0.1, epmax, 250, endpoint=True)
 # ==========================
 # INITIAL STATE
@@ -215,7 +216,7 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
 np.save(os.path.join(save_dir, "t.npy"), t)
 #np.save(os.path.join(save_dir, "w_list.npy"), w_list) # lin/exp
 #np.save(os.path.join(save_dir, "phi_list.npy"), phi_list) # lin/exp
-np.save(os.path.join(save_dir, "ep_list.npy"), ep_list) #gauss
+np.save(os.path.join(save_dir, "T_list.npy"), ep_list) #gauss
 
 with open(os.path.join(save_dir, "args.json"), "w", encoding="utf-8") as f:
     json.dump(args_init, f, indent=2, ensure_ascii=False)
@@ -286,8 +287,8 @@ for ep in tqdm(ep_list): #gauss
 
     c_list.append(C_var)
     c_list_aberto.append(C_var_aberto)
-    snap_dir_var_aberto = os.path.join(save_dir, f"snapshots_var_aberto_ep_{ep:.4f}")
-    snap_dir_var = os.path.join(save_dir, f"snapshots_var_ep_{ep:.4f}")
+    snap_dir_var_aberto = os.path.join(save_dir, f"snapshots_var_aberto_T_{ep:.4f}")
+    snap_dir_var = os.path.join(save_dir, f"snapshots_var_T_{ep:.4f}")
 
     save_states_and_wigner_snapshots(
         sol_var_aberto,
@@ -295,7 +296,7 @@ for ep in tqdm(ep_list): #gauss
         xvec,
         pvec,
         save_root=snap_dir_var_aberto,
-        label=f"var_aberto_ep_{ep:.4f}"
+        label=f"var_aberto_T_{ep:.4f}"
     )
 
     save_states_and_wigner_snapshots(
@@ -304,7 +305,7 @@ for ep in tqdm(ep_list): #gauss
         xvec,
         pvec,
         save_root=snap_dir_var,
-        label=f"var_ep_{ep:.4f}"
+        label=f"var_T_{ep:.4f}"
     )
     # guarda o args real usado em cada w
     args_per_w.append({**args})

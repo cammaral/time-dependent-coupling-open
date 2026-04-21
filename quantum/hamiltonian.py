@@ -15,6 +15,8 @@ def g_t(t, args):
             coupling = args['g0']* np.exp(args["zeta"]*args['w'] * t + args['phi'])
     elif args['coupling'] == 'gauss' and 'sigma' in args:
         coupling = args['g0'] * np.exp(args['sigma']*((t - args['T'])/args['epsilon'])**2)
+    elif args['coupling'] == 'gauss_mod' and 'sigma' in args:
+        coupling = args['g0'] * np.exp(args['sigma']*((t - args['T1'])/args['epsilon'])**2) + args['g0'] * np.exp(args['sigma']*((t - args['T2'])/args['epsilon'])**2)
     return coupling
 
 def h_closed(args, b, sp, sm):

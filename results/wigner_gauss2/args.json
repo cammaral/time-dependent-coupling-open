@@ -6,6 +6,6 @@
   "gamma": 0,
   "gamma_phi": 0.01,
   "coupling": "gauss",
-  "epsilon": null,
-  "T": 5.0
+  "epsilon": 1.5,
+  "T": null
 }
