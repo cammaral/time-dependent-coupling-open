@@ -102,9 +102,9 @@ args = {
     'kappa': 1e-1,
     'gamma': 0,
     'gamma_phi': 1e-2,
-    'coupling': 'exp_mod',
+    'coupling': 'cos',
     'phi': 0,
-    'zeta': 0.7,
+    #'zeta': 0.7,
     #'lambda': 0.1
 }
 """
@@ -118,28 +118,28 @@ args = {
     'gamma': 0,
     'gamma_phi': 1e-2,
     'coupling': 'gauss',
-    'epsilon': None,
-    'T': 7.5
+    'epsilon': 8/(50/15),
+    'T': None#7.5
 }
 
 
-extra = 'gauss2'
+extra = 'gauss6_new_params'
 
 #======= LINEAR/ EXP / TRIG =======
-#wmax = 0.05
-#w_list = np.linspace(wmax/5, wmax, 100, endpoint=True)
+#wmax = ((50/15)* np.pi)/5
+#w_list = np.linspace(0, wmax, 100, endpoint=True)
 #phi_max = np.pi/2
 #phi_list = np.linspace(0, phi_max, 100)
 
-xvec = np.linspace(-7.5, 7.5, 250)
-pvec = np.linspace(-7.5, 7.5, 250)
+xvec = np.linspace(-7.5, 7.5, 200)
+pvec = np.linspace(-7.5, 7.5, 200)
 
 
 #======= GAUSS ========
-epmax = 10
-#Tmax = 7.5
-#T_list = np.linspace(2.5, Tmax, 100, endpoint=True)
-ep_list = np.linspace(0.1, epmax, 250, endpoint=True)
+#epmax = 10/(50/15)
+Tmax = 35/(50/15)
+T_list = np.linspace(15/(50/15), Tmax, 100, endpoint=True)
+#ep_list = np.linspace(6/(50/15), epmax, 250, endpoint=True)
 # ==========================
 # INITIAL STATE
 # ==========================
@@ -215,7 +215,7 @@ with open(os.path.join(save_dir, "run_info.txt"), "w", encoding="utf-8") as f:
 np.save(os.path.join(save_dir, "t.npy"), t)
 #np.save(os.path.join(save_dir, "w_list.npy"), w_list) # lin/exp
 #np.save(os.path.join(save_dir, "phi_list.npy"), phi_list) # lin/exp
-np.save(os.path.join(save_dir, "ep_list.npy"), ep_list) #gauss
+np.save(os.path.join(save_dir, "ep_list.npy"),T_list) #gauss
 
 with open(os.path.join(save_dir, "args.json"), "w", encoding="utf-8") as f:
     json.dump(args_init, f, indent=2, ensure_ascii=False)
@@ -273,8 +273,8 @@ args_per_w = []
 #    args['phi'] = float(phi)
 #for w in tqdm(w_list): # lin/exp
 #    args['w'] = float(w) # lin/exp
-for ep in tqdm(ep_list): #gauss
-    args["epsilon"] = float(ep) #gauss
+for ep in tqdm(T_list): #gauss
+    args["T"] = float(ep) #gauss
     #print("Passei", w)
     H = h_open(b, sp, sm)
 
@@ -286,8 +286,8 @@ for ep in tqdm(ep_list): #gauss
 
     c_list.append(C_var)
     c_list_aberto.append(C_var_aberto)
-    snap_dir_var_aberto = os.path.join(save_dir, f"snapshots_var_aberto_ep_{ep:.4f}")
-    snap_dir_var = os.path.join(save_dir, f"snapshots_var_ep_{ep:.4f}")
+    snap_dir_var_aberto = os.path.join(save_dir, f"snapshots_var_aberto_T_{ep:.4f}")
+    snap_dir_var = os.path.join(save_dir, f"snapshots_var_T_{ep:.4f}")
 
     save_states_and_wigner_snapshots(
         sol_var_aberto,
@@ -295,7 +295,7 @@ for ep in tqdm(ep_list): #gauss
         xvec,
         pvec,
         save_root=snap_dir_var_aberto,
-        label=f"var_aberto_ep_{ep:.4f}"
+        label=f"var_aberto_T_{ep:.4f}"
     )
 
     save_states_and_wigner_snapshots(
@@ -304,7 +304,7 @@ for ep in tqdm(ep_list): #gauss
         xvec,
         pvec,
         save_root=snap_dir_var,
-        label=f"var_ep_{ep:.4f}"
+        label=f"var_T_{ep:.4f}"
     )
     # guarda o args real usado em cada w
     args_per_w.append({**args})
@@ -314,7 +314,7 @@ np.save(os.path.join(save_dir, "var_aberto.npy"), np.array(c_list_aberto, dtype=
 np.save(os.path.join(save_dir, "var.npy"), np.array(c_list, dtype=object))
 
 # salvar histórico de args (inclui w em cada passo)
-pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_ep.csv"), index=False)
+pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_T.csv"), index=False)
 #pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_w.csv"), index=False)
 #pd.DataFrame(args_per_w).to_csv(os.path.join(save_dir, "args_per_phi.csv"), index=False)
 

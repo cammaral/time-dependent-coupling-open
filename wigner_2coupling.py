@@ -124,7 +124,7 @@ args = {
 }
 
 
-extra = 'gauss3'
+extra = 'gauss_mod_new_parameters'
 
 #======= LINEAR/ EXP / TRIG =======
 #wmax = 0.05
@@ -132,15 +132,15 @@ extra = 'gauss3'
 #phi_max = np.pi/2
 #phi_list = np.linspace(0, phi_max, 100)
 
-xvec = np.linspace(-7.5, 7.5, 250)
-pvec = np.linspace(-7.5, 7.5, 250)
+xvec = np.linspace(-7.5, 7.5, 200)
+pvec = np.linspace(-7.5, 7.5, 200)
 
 
 #======= GAUSS ========
-epmax = 3
+epmax = 8/(50/15)
 #Tmax = 12.0
 #T_list = np.linspace(0, Tmax, 200, endpoint=True)
-ep_list = np.linspace(0.1, epmax, 250, endpoint=True)
+ep_list = np.linspace(0.2, epmax, 100, endpoint=True)
 # ==========================
 # INITIAL STATE
 # ==========================
