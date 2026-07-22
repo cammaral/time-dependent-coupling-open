@@ -293,11 +293,11 @@ def loss_args(block_name):
     #   gamma     -> decaimento atomico por sigma_minus
     #   gamma_phi -> dephasing por sigma_z
     if block_name == "only_dephasing":
-        return {"kappa": 0.0, "gamma": 0.0, "gamma_phi": 1e-3}
+        return {"kappa": 0.0, "gamma": 0.0, "gamma_phi": 1e-2}
     if block_name == "only_cavity_damping":
-        return {"kappa": 1e-2, "gamma": 0.0, "gamma_phi": 0.0}
+        return {"kappa": 1e-1, "gamma": 0.0, "gamma_phi": 0.0}
     if block_name == "specific_parameters":
-        return {"kappa": 1e-2, "gamma": 0.0, "gamma_phi": 1e-3}
+        return {"kappa": 1e-1, "gamma": 0.0, "gamma_phi": 1e-2}
     raise ValueError(f"Bloco desconhecido: {block_name}")
 
 
