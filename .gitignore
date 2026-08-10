@@ -2,3 +2,28 @@
 results/
 results.zip
 *.zip
+
+# macOS and Python-generated files
+.DS_Store
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local scratch files and reproducible rendered reports
+tmp/
+output/
+
+# Binary numerical results should remain local.  Source code, notebooks,
+# article files, and the small dataset metadata stay versioned.
+*.npy
+*.npz
+
+# Large, reproducible contents of the consolidated paper dataset.
+# README.md, METADATA.json, MANIFEST.csv, notebooks/, provenance/, and the
+# two top-level plotting notebooks remain available for version control.
+paper_dataset_consolidated1/article_both_losses/
+paper_dataset_consolidated1/only_cavity_damping/
+paper_dataset_consolidated1/only_dephasing/
+paper_dataset_consolidated1/specific_both_losses/
+paper_dataset_consolidated1/figures/
+paper_dataset_consolidated1/requested_outputs/

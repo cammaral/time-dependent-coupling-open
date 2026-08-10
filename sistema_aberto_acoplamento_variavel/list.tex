@@ -1,0 +1,166 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{biblatex}
+\usepackage{xcolor}
+\usepackage{physics}
+\addbibresource{refs.bib}
+\usepackage{geometry}
+\usepackage{subcaption}
+
+
+\RequirePackage{xcolor}
+\newcommand{\revision}[1]{{\color{red}{#1}}}
+\newcommand{\ts}[1]{{\color{red}- \textbf{Thiago}: #1 - }}
+\newcommand{\ca}[1]{{\color{orange} - \textbf{Cesar}: #1 - }}
+
+\geometry{
+    left=15mm,
+    right=15mm,
+    top=15mm,
+    bottom=15mm
+}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{List of simulations}
+\author{Cesar Amaral, Thiago T. Tsutsui}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Only dephasing}
+
+Considering $\kappa=0$ and $\gamma=10^{-3}$ and $g_0=1$.
+
+\begin{itemize}
+    \item Wigner Negativity. Time from $t=0$ to $t=15$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=7.5$, $\sigma=-1$, $1.8<\zeta<3$. We employed $250$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 125+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=2.4$, $\sigma=-1$, $4.5<T<10.5$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<2\pi/3$. We employed $100$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 25+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 50+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Coherence. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Magic. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+         \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Entanglement. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+\end{itemize}
+
+\section{Only cavity damping}
+
+Considering $\gamma=0$ and $\kappa=10^{-2}$ and $g_0=1$.
+
+\begin{itemize}
+    \item Wigner Negativity. Time from $t=0$ to $t=15$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=7.5$, $\sigma=-1$, $1.8<\zeta<3$. We employed $250$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 125+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=2.4$, $\sigma=-1$, $4.5<T<10.5$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<2\pi/3$. We employed $100$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 25+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 50+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Coherence. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Magic. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+         \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+    \item Entanglement. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\zeta_{\text{av}}$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $T_{\text{av}}$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+        When plotting the values in a Jupyter notebook employ the 50+1th parameter for $\omega_{\text{min}}$ because the first parameter is $0$, and the 100+1th parameter for $\omega_{\text{av}}$.
+    \end{itemize}
+\end{itemize}
+
+\section{Specific parameters}
+
+Considering $\kappa=10^{-2}$ and $\gamma=10^{-3}$ and $g_0=1$.
+
+\begin{itemize}
+    \item Wigner Negativity. Time from $t=0$ to $t=15$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=7.5$, $\sigma=-1$, $1.8<\zeta<3$. We employed $250$ values of the parameter $\zeta$.
+        Simulate specifically for $\zeta_{\text{av}}=2.4$.
+        \item Gaussian with varying peak time, $\zeta=2.4$, $\sigma=-1$, $4.5<T<10.5$. We employed $100$ values of the parameter $T$.
+       Simulate specifically for $T_{\text{av}}=7.5$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<2\pi/3$. We employed $100$ values of the parameter $\omega$.
+         Simulate specifically for $\omega_{\text{min}}=\pi/6$ and $\omega_{\text{av}}=\pi/3$.
+    \end{itemize}
+    \item Coherence. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+       Simulate specifically for $\zeta_{\text{av}}=8$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+       Simulate specifically for $T_{\text{av}}=25$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+             Simulate specifically for $\omega_{\text{min}}=\pi/20$ and $\omega_{\text{av}}=\pi/10$.
+    \end{itemize}
+    \item Magic. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+         \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+       Simulate specifically for $\zeta_{\text{av}}=8$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+         Simulate specifically for $T_{\text{av}}=25$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+          Simulate specifically for $\omega_{\text{min}}=\pi/20$ and $\omega_{\text{av}}=\pi/10$.
+    \end{itemize}
+    \item Entanglement. Time from $t=0$ to $t=50$.
+    \begin{itemize}
+        \item Gaussian with varying width, $T=25$, $\sigma=-1$, $6<\zeta<10$. We employed $100$ values of the parameter $\zeta$.
+         Simulate specifically for $\zeta_{\text{av}}=8$.
+        \item Gaussian with varying peak time, $\zeta=8$, $\sigma=-1$, $15<T<35$. We employed $100$ values of the parameter $T$.
+        Simulate specifically for $T_{\text{av}}=25$.
+        \item Cosine with varying frequency, $\phi=0$, $0<\omega<\pi/5$. We employed $200$ values of the parameter $\omega$.
+         Simulate specifically for $\omega_{\text{min}}=\pi/20$ and $\omega_{\text{av}}=\pi/10$.
+    \end{itemize}
+\end{itemize}
+
+
+
+\printbibliography
+
+\end{document}

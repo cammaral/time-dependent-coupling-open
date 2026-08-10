@@ -97,6 +97,85 @@ def stabilizer_renyi_entropy_qubit_from_expectations(px, py, pz, eps=1e-15):
     return np.real_if_close(M2), np.real_if_close(S2), np.real_if_close(S4), np.real_if_close(purity), np.real_if_close(magic_proxy_l1)
 
 
+def mixed_state_magic_witness_qubit_from_expectations(
+    px,
+    py,
+    pz,
+    alpha=2.0,
+    eps=1e-15,
+    tol=1e-10,
+):
+    """Compute the mixed-state magic witness of Haug and Tarabunga.
+
+    This function implements, for a single qubit,
+
+        A_alpha(rho) = (1/2) sum_P |Tr(rho P)|^(2 alpha)
+        M_alpha(rho) = [ln A_alpha(rho) + S_2(rho)] / (1 - alpha)
+        W_alpha(rho) = M_alpha(rho) - 2 S_2(rho)
+        S_2(rho) = -ln Tr(rho^2)
+
+    where P runs over I, X, Y, Z.  For alpha >= 1/2, W_alpha > 0
+    certifies that the mixed state is nonstabilizer.  For a single qubit,
+    W_{1/2} > 0 is also an exact membership test because it is equivalent to
+    |<X>| + |<Y>| + |<Z>| > 1.
+
+    M_alpha by itself is retained for comparison with the previous code, but
+    must not be interpreted as a faithful mixed-state magic certificate.
+    """
+    alpha = float(alpha)
+    if alpha < 0.5:
+        raise ValueError("The mixed-state witness requires alpha >= 1/2.")
+    if np.isclose(alpha, 1.0):
+        raise ValueError("alpha=1 requires the corresponding limiting expression.")
+
+    px, py, pz = np.broadcast_arrays(
+        np.asarray(px, dtype=np.complex128),
+        np.asarray(py, dtype=np.complex128),
+        np.asarray(pz, dtype=np.complex128),
+    )
+
+    ax = np.abs(px)
+    ay = np.abs(py)
+    az = np.abs(pz)
+
+    pauli_second_moment = 1.0 + ax**2 + ay**2 + az**2
+    purity_raw = 0.5 * pauli_second_moment
+    purity_for_log = np.clip(purity_raw, eps, 1.0)
+    renyi2_entropy = -np.log(purity_for_log)
+
+    A_alpha = 0.5 * (
+        1.0
+        + ax ** (2.0 * alpha)
+        + ay ** (2.0 * alpha)
+        + az ** (2.0 * alpha)
+    )
+    A_alpha_for_log = np.maximum(A_alpha, eps)
+
+    M_alpha = (
+        np.log(A_alpha_for_log) + renyi2_entropy
+    ) / (1.0 - alpha)
+    W_alpha = M_alpha - 2.0 * renyi2_entropy
+
+    bloch_l1 = ax + ay + az
+    W_half_exact = 2.0 * np.log(
+        np.maximum((1.0 + bloch_l1) / 2.0, eps)
+    )
+
+    return {
+        "alpha": alpha,
+        "A_alpha": np.real_if_close(A_alpha),
+        "M_alpha": np.real_if_close(M_alpha),
+        "W_alpha": np.real_if_close(W_alpha),
+        "renyi2_entropy": np.real_if_close(renyi2_entropy),
+        "purity": np.real_if_close(purity_raw),
+        "pauli_second_moment": np.real_if_close(pauli_second_moment),
+        "bloch_l1": np.real_if_close(bloch_l1),
+        "W_half_exact": np.real_if_close(W_half_exact),
+        "is_magic_exact": bloch_l1 > 1.0 + tol,
+        "is_magic_witnessed": W_alpha > tol,
+    }
+
+
 def qubit_pauli_expectations_from_states(states, subsystem=0):
     """
     Compute <X>, <Y>, <Z> for the reduced qubit of each state.
